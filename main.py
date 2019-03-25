@@ -2,7 +2,7 @@ from bitmex_websocket import BitMEXWebsocket
 import logging
 from time import sleep
 from mongo_order import *
-symbol = "XBTUSD"
+symbol = input('symbol = (ex.XBTUSD)')
 exchange = "bitmex"
 mongo = MongoOrder('trade','testprice')
 # Basic use of websocket.
@@ -13,7 +13,7 @@ def run():
    ws = BitMEXWebsocket(endpoint="https://testnet.bitmex.com/api/v1", symbol=symbol,
                         api_key='OoYKS3uW_I1IF-0IU1_QqbM4', api_secret='yjHA4-p9qc7F4FN_ggg90eCHrD_b9xexv8onNFMQpmwnv5VW')
 
-   logger.info("Instrument data: %s" % ws.get_instrument())
+   #logger.info("Instrument data: %s" % ws.get_instrument())
 
    # Run forever
    currentPrice = ws.get_ticker()
@@ -26,8 +26,7 @@ def run():
       instrument = ws.get_instrument()
       quote = ws.get_quote()
       #print (quote)
-      logger.info("bid: %s %s ask: %s %s" ,instrument['bidPrice'],quote['bidSize'],instrument['askPrice'],quote['askSize'])
-      logger.info("size %s" % ws.get_quote())
+      logger.info("bid price/size: %s %s ask price/size: %s %s" ,instrument['bidPrice'],quote['bidSize'],instrument['askPrice'],quote['askSize'])
       newbid = instrument['bidPrice']
       newask = instrument['askPrice']
       newbidsize = quote['bidSize']
