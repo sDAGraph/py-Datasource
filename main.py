@@ -11,12 +11,12 @@ def run():
 
    # Instantiating the WS will make it connect. Be sure to add your api_key/api_secret.
    ws = BitMEXWebsocket(endpoint="https://testnet.bitmex.com/api/v1", symbol=symbol,
-                        api_key='OoYKS3uW_I1IF-0IU1_QqbM4', api_secret='yjHA4-p9qc7F4FN_ggg90eCHrD_b9xexv8onNFMQpmwnv5VW')
+                        api_key='W3P6SJrm4T4n1ZunuvFqHTh7', api_secret='VdyjaXtF5Wx9NPlBS04VmDA9AcNIGfUCRuhN6OImxgo0ezo6')
 
    #logger.info("Instrument data: %s" % ws.get_instrument())
 
    # Run forever
-   currentPrice = ws.get_ticker()
+   #currentPrice = ws.get_ticker()
    instriment = ws.get_instrument()
    bid = 0
    ask = 0
