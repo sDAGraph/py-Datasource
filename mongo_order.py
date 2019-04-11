@@ -19,6 +19,10 @@ class MongoOrder():
 		newvalues =  { "$set":data}
 		result = self.col.update_one(myquery, newvalues,upsert=True)
 		return result
+	def SetExpired(self):
+		return self.col.create_index([('time', pymongo.ASCENDING)], expireAfterSeconds=60)
+	def Insert(self,query):
+		return self.col.insert(query)
 #UpdateFieldById(self,field,id,value):
 #test = MongoOrder()
 #client = test.client

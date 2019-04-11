@@ -2,9 +2,11 @@ from bitmex_websocket import BitMEXWebsocket
 import logging
 from time import sleep
 from mongo_order import *
+import datetime
 symbol = input('symbol = (ex.XBTUSD)')
 exchange = "bitmex"
 mongo = MongoOrder('trade','testprice')
+mongohistory = MongoOrder('trade','historyprice')
 # Basic use of websocket.
 def run():
    logger = setup_logger()
@@ -31,15 +33,16 @@ def run():
       newask = instrument['askPrice']
       newbidsize = quote['bidSize']
       newasksize = quote['askSize']
+      data1 = {'market':symbol,'exchange':exchange,'bid':newbid,'bidSize':newbidsize,'ask':newask,'askSize':newasksize,'time':datetime.datetime.utcnow()}
+      mongohistory.Insert(data1)
       if(bid != newbid or ask != newask or bidsize != newbidsize or asksize != newasksize):
-         data = {'market':symbol,'exchange':exchange,'bid':newbid,'bidSize':newbidsize,'ask':newask,'askSize':newasksize}
+         data = {'market':symbol,'exchange':exchange,'bid':newbid,'bidSize':newbidsize,'ask':newask,'askSize':newasksize,'time':datetime.datetime.utcnow()}
          mongo.UpdateFieldByExchange(exchange,data)
          ask = newask
          bid = newbid
          bidsize = newbidsize
          asksize = newasksize
          print ("save!")
-
       #if ws.api_key:
       #    logger.info("Funds: %s" % ws.funds())
       #logger.info("Market Depth: %s" % ws.market_depth())
@@ -59,4 +62,5 @@ def setup_logger():
    return logger
 
 if __name__ == "__main__":
+   mongohistory.SetExpired()
    run()
